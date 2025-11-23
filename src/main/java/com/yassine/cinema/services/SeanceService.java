@@ -10,4 +10,5 @@ public interface SeanceService {
     List<Seance> getAllSeances();
     Seance updateSeance(Long id, Seance seance);
     void deleteSeance(Long id);
+    public List<Seance> getSeancesByFilmId(Long filmId);
 }

@@ -19,6 +19,11 @@ public class SalleServiceImpl implements SalleService {
     }
 
     @Override
+    public List<Salle> getSallesByCinema(Long cinemaId) {
+        return salleRepository.findByCinemaId(cinemaId);
+    }
+
+    @Override
     public Salle saveSalle(Salle salle, Long cinemaId) {
         if (salle.getCapacite() <= 0)
             throw new RuntimeException("La capacité de la salle doit être > 0");

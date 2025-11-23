@@ -23,6 +23,12 @@ public class ReservationController {
         return reservationService.saveReservation(seanceId, reservation);
     }
 
+    @PutMapping("/{id}")
+    public Reservation update(@PathVariable Long id,
+                              @RequestBody Reservation reservation) {
+        return reservationService.updateReservation(id, reservation);
+    }
+
     @GetMapping
     public List<Reservation> all() {
         return reservationService.getAllReservations();

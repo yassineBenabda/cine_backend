@@ -1,6 +1,7 @@
 package com.yassine.cinema.restcontrollers;
 
 import com.yassine.cinema.entities.Cinema;
+import com.yassine.cinema.entities.Salle;
 import com.yassine.cinema.services.CinemaService;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,13 @@ public class CinemaController {
 
     public CinemaController(CinemaService cinemaService) {
         this.cinemaService = cinemaService;
+    }
+
+    @GetMapping("/{cinemaId}/salles")
+    public List<Salle> getSalles(@PathVariable Long cinemaId) {
+
+        Cinema cinema = cinemaService.getCinema(cinemaId);
+        return cinema.getSalles();
     }
 
     @PostMapping

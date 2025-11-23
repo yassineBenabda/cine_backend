@@ -1,6 +1,7 @@
 package com.yassine.cinema.restcontrollers;
 
 import com.yassine.cinema.entities.Film;
+import com.yassine.cinema.entities.Seance;
 import com.yassine.cinema.services.FilmService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,13 @@ public class FilmController {
         this.filmService = filmService;
     }
 
-    @PostMapping
+    @GetMapping("/{filmId}/seances")
+    public List<Seance> getSeancesByFilm(@PathVariable Long filmId) {
+        Film film = filmService.getFilm(filmId);
+        return film.getSeances();
+    }
+
+    @PostMapping("/add")
     public Film add(@RequestBody Film film) {
         return filmService.saveFilm(film);
     }

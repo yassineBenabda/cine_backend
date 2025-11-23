@@ -27,8 +27,9 @@ public class SeanceServiceImpl implements SeanceService {
     @Override
     public Seance saveSeance(Seance seance, Long filmId, Long salleId) {
 
-        if (seance.getDateHeure().isBefore(LocalDateTime.now()))
-            throw new RuntimeException("La séance doit être dans le futur");
+        if (seance.getDateHeure().isBefore(LocalDateTime.now().plusMinutes(1))) {
+            throw new RuntimeException("La séance doit être au moins 1 minute dans le futur");
+        }
 
         Film film = filmRepository.findById(filmId)
                 .orElseThrow(() -> new RuntimeException("Film introuvable"));
@@ -63,5 +64,8 @@ public class SeanceServiceImpl implements SeanceService {
     @Override
     public void deleteSeance(Long id) {
         seanceRepository.deleteById(id);
+    }
+    public List<Seance> getSeancesByFilmId(Long filmId) {
+        return seanceRepository.findByFilmId(filmId);
     }
 }

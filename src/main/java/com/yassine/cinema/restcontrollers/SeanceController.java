@@ -1,5 +1,7 @@
 package com.yassine.cinema.restcontrollers;
 
+import com.yassine.cinema.entities.Film;
+import com.yassine.cinema.entities.Salle;
 import com.yassine.cinema.entities.Seance;
 import com.yassine.cinema.services.SeanceService;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,11 @@ public class SeanceController {
 
     public SeanceController(SeanceService seanceService) {
         this.seanceService = seanceService;
+    }
+
+    @GetMapping("/film/{filmId}")
+    public List<Seance> getSeancesByFilm(@PathVariable Long filmId) {
+        return seanceService.getSeancesByFilmId(filmId);
     }
 
     @PostMapping("/{filmId}/{salleId}")

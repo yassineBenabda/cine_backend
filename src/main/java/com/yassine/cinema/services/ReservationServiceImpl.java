@@ -39,6 +39,32 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    public Reservation updateReservation(Long id, Reservation reservation) {
+        Reservation existingReservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Réservation introuvable"));
+
+        Seance seance = existingReservation.getSeance();
+        
+        // Vérifier la capacité si le nombre de places change
+        if (reservation.getNbPlaces() != existingReservation.getNbPlaces()) {
+            int totalReserved = seance.getReservations()
+                    .stream()
+                    .filter(r -> !r.getId().equals(id))
+                    .mapToInt(Reservation::getNbPlaces)
+                    .sum();
+
+            if (totalReserved + reservation.getNbPlaces() > seance.getSalle().getCapacite()) {
+                throw new RuntimeException("Capacité de la salle dépassée");
+            }
+        }
+
+        existingReservation.setClient(reservation.getClient());
+        existingReservation.setNbPlaces(reservation.getNbPlaces());
+        
+        return reservationRepository.save(existingReservation);
+    }
+
+    @Override
     public Reservation getReservation(Long id) {
         return reservationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Réservation introuvable"));

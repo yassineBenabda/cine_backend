@@ -1,6 +1,8 @@
 package com.yassine.cinema.restcontrollers;
 
+import com.yassine.cinema.entities.Film;
 import com.yassine.cinema.entities.Salle;
+import com.yassine.cinema.entities.Seance;
 import com.yassine.cinema.services.SalleService;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,22 @@ public class SalleController {
 
     public SalleController(SalleService salleService) {
         this.salleService = salleService;
+    }
+
+    @GetMapping("/{salleId}/films")
+    public List<Film> getFilmsBySalle(@PathVariable Long salleId) {
+        Salle salle = salleService.getSalle(salleId);
+
+        return salle.getSeances()
+                .stream()
+                .map(Seance::getFilm)
+                .distinct()
+                .toList();
+    }
+
+    @GetMapping("/cinema/{cinemaId}")
+    public List<Salle> getSallesByCinema(@PathVariable Long cinemaId) {
+        return salleService.getSallesByCinema(cinemaId);
     }
 
     @PostMapping("/{cinemaId}")
