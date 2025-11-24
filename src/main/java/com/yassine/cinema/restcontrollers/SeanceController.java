@@ -1,7 +1,5 @@
 package com.yassine.cinema.restcontrollers;
 
-import com.yassine.cinema.entities.Film;
-import com.yassine.cinema.entities.Salle;
 import com.yassine.cinema.entities.Seance;
 import com.yassine.cinema.services.SeanceService;
 import org.springframework.web.bind.annotation.*;

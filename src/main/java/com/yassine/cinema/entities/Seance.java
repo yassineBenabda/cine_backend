@@ -16,7 +16,8 @@ public class Seance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @Column(nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dateHeure;
 
     @ManyToOne
@@ -31,4 +32,15 @@ public class Seance {
 
     @OneToMany(mappedBy = "seance", cascade = CascadeType.ALL)
     private List<Reservation> reservations;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    public Long getFilmId() {
+        return (film != null) ? film.getId() : null;
+    }
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    public Long getSalleId() {
+        return (salle != null) ? salle.getId() : null;
+    }
+
 }
